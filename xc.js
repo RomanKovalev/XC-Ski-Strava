@@ -146,7 +146,7 @@ activities.forEach(function (element) {
     }
   }
 })
-ski_card_content.getElementsByClassName('actual')[0].innerHTML = common_week_counter / 1000
+ski_card_content.getElementsByClassName('actual')[0].innerHTML = Math.round(common_week_counter / 10)/100;
 
 var max_day = Object.keys(days_week_counter).reduce(function (a, b) { return days_week_counter[a] > days_week_counter[b] ? a : b })
 
