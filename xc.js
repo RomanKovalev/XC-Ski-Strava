@@ -179,15 +179,12 @@ ski_card_content.getElementsByClassName('volume-bar-container')[5].getElementsBy
 ski_card_content.getElementsByClassName('volume-bar-container')[6].getElementsByTagName('rect')[0].setAttribute('height', days_week_counter['Sun'] + 2)
 ski_card_content.getElementsByClassName('volume-bar-container')[6].getElementsByTagName('rect')[0].setAttribute('y', 46 - days_week_counter['Sun'])
 
-ski_card_content.getElementsByClassName('list-stats')[0].childNodes[3].innerHTML = elevation_gain + ' ' + elevation_unit
-ski_card_content.getElementsByClassName('list-stats')[0].childNodes[3].innerHTML = elevation_gain + ' ' + elevation_unit
+ski_card_content.getElementsByClassName('list-stats')[0].childNodes[3].innerHTML = Math.round(elevation_gain) + ' ' + elevation_unit
 
 var t = ski_card_content.getElementsByClassName('list-stats')[0].childNodes[1].getElementsByTagName('abbr')
-// console.log(ski_card_content.getElementsByClassName('list-stats')[0].childNodes[1].getElementsByTagName('abbr'));
 ski_card_content.getElementsByClassName('list-stats')[0].childNodes[1].innerHTML = hours + t[0].innerHTML + ' ' + minutes + t[1].innerHTML
 
 ski_card_content.getElementsByClassName('progress-container')[0].onclick = function (e) {
-  // var modal = '<dialog id="myDialog">This is a dialog window</dialog>'
   var modal = document.createElement('dialog')
   // get goal from storage
   modal.innerHTML = '<form><label>Set year goal<input type="number" min="0" step="1" value=0 style="margin:25px;"/></label><a class="btn btn-success btn-sm">Submit</a><a style="margin-left:15px;" class="btn btn-success btn-sm">Cancel</a></form>'
