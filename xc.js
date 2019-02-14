@@ -29,7 +29,7 @@ banner[0].style.display = 'none'
 banner[1].style.display = 'none'
 banner[2].style.display = 'none'
 banner[3].getElementsByClassName('media-left')[0].remove();
-banner[3].getElementsByClassName('media-body pl-sm')[0].innerHTML = '<a style="cursor:pointer;">Setup you year XC ski goal</a>';
+banner[3].getElementsByClassName('media-body pl-sm')[0].innerHTML = '<a style="cursor:pointer;">Setup you XC ski year goal</a>';
 banner[3].getElementsByClassName('media-body pl-sm')[0].style.textAlign='center';
 // banner[3].style.display = 'none'
 
