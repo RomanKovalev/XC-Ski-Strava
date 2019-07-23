@@ -1,0 +1,73 @@
+/* src/content.css */
+body {
+    margin: 0;
+}
+.xc_ski_extension{
+    background-color: #fff;
+    /* padding: 16px; */
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, Roboto, "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    color: #2d2d32;
+    fill: currentColor;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.header {
+    text-align: center;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.main_tabs_header {
+    justify-content: center;
+}
+
+.tab {
+    flex: 1
+}
+
+.tab-content, .main_tabs_header {
+    width: 100%;
+}
+
+.goals_header {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.goals_header sub {
+    bottom: 0;
+    font-weight: normal;
+    font-size: 65%;
+    cursor: pointer;
+    color: #007bff;
+    margin-left: 5px;
+}
+
+/* .goals_header sub:hover {
+    color: #007bff;
+} */
+
+.table {
+    margin-bottom: 0px;
+}
+
+.goals-btn {
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+.goals_wrapper, .input_wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.input_wrapper {
+    margin-bottom: 10px;
+}
+.btn_wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
