@@ -71,3 +71,30 @@ body {
     display: flex;
     justify-content: flex-end;
 }
+
+.event_wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 -5px;
+}
+.event_wrapper > div {
+    margin: 5px;
+}
+
+.event_wrapper div:nth-child(2) {
+    flex-basis: 50%;
+    overflow: hidden;
+}
+
+.event_wrapper .fa-trash {
+    font-size: 17px;
+    cursor: pointer;
+    color: tomato;
+}
+
+.event_wrapper .fa-edit {
+    font-size: 17px;
+    cursor: pointer;
+    color: green;
+}

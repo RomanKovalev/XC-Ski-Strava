@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import Frame, { FrameContextConsumer } from 'react-frame-component';
 import { Container, Row, Col } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
+import "font-awesome/css/font-awesome.min.css"
 
 import "./content.css";
 
@@ -17,14 +18,14 @@ import Footer from "./components/Footer";
 class Main extends React.Component {
     render() {
         return (
-            <Frame height="600" frameBorder="0" width="auto" head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}>
+            <Frame style={{ borderRadius: '5px' }} height="600" frameBorder="0" width="280px" head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}>
                 <FrameContextConsumer>
                     {
                         // Callback is invoked with iframe's window and document instances
                         ({ document, window }) => {
                             // Render Children
                             return (
-                                <div class="xc_ski_extension" style={{ marginTop: '10px'}}>
+                                <div class="xc_ski_extension" style={{ marginTop: '10px' }}>
                                     <Container>
                                         <Row>
                                             <Col>
@@ -33,7 +34,6 @@ class Main extends React.Component {
                                         </Row>
                                         <Row>
                                             <Col xl={12} md={12}>
-
                                                 <Stats />
                                             </Col>
                                         </Row>
@@ -43,10 +43,14 @@ class Main extends React.Component {
                                             </Col>
                                         </Row>
                                         <Row>
-                                            <Events />
+                                            <Col>
+                                                <Events />
+                                            </Col>
                                         </Row>
                                         <Row>
-                                            <Footer />
+                                            <Col>
+                                                <Footer />
+                                            </Col>
                                         </Row>
                                     </Container>
                                 </div>

@@ -4,7 +4,9 @@ class Footer extends Component {
   render() {
     return (
       <div>
-        Footer
+        <a href="#">FAQ</a> | 
+        <a href="#">Support</a> | 
+        <a href="#">For devs</a>
       </div>
     );
   }
