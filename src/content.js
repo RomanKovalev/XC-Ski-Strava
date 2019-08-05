@@ -18,7 +18,13 @@ import Footer from "./components/Footer";
 class Main extends React.Component {
     render() {
         return (
-            <Frame style={{ borderRadius: '5px' }} height="600" frameBorder="0" width="280px" head={[<link type="text/css" rel="stylesheet" href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}>
+            <Frame 
+            style={{ borderRadius: '5px' }} 
+            height="540px" 
+            frameBorder="0" width="280px"
+            head={[<link type="text/css" 
+            rel="stylesheet" 
+            href={chrome.runtime.getURL("/static/css/content.css")} ></link>]}>
                 <FrameContextConsumer>
                     {
                         // Callback is invoked with iframe's window and document instances
