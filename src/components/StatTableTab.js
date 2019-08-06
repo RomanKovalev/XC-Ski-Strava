@@ -1,36 +1,50 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap'
 
-class StatTableTab extends Component {
+export default class StatTableTab extends Component {
   render() {
-    return (
+
+    if (this.props.stats) {
+      const { totalDistance,
+        distanceUnit,
+        totalTime,
+        totalElevation,
+        elevateUnit,
+        maxDistance,
+        maxTime } = this.props.stats
+
+      return (
         <Table borderless size="sm">
-              <tbody>
-                <tr></tr>
-                <tr>
-                  <td>Distance</td>
-                  <td>100 km</td>
-                </tr>
-                <tr>
-                  <td>Time</td>
-                  <td>6 h 54m</td>
-                </tr>
-                <tr>
-                  <td>Elevation</td>
-                  <td>450 m</td>
-                </tr>
-                <tr>
-                  <td>The biggest</td>
-                  <td>120 km</td>
-                </tr>            
-                <tr>
-                  <td>The longest</td>
-                  <td>5 hours</td>
-                </tr>                    
-              </tbody>
-            </Table>
-    );
+          <tbody>
+            <tr></tr>
+            <tr>
+              <td>Distance</td>
+              <td>{totalDistance} {distanceUnit}</td>
+            </tr>
+            <tr>
+              <td>Time</td>
+              <td>{totalTime}</td>
+            </tr>
+            <tr>
+              <td>Elevation</td>
+              <td>{totalElevation} {elevateUnit}</td>
+            </tr>
+            <tr>
+              <td>The biggest</td>
+              <td>{maxDistance} {distanceUnit}</td>
+            </tr>
+            <tr>
+              <td>The longest</td>
+              <td>{maxTime}</td>
+            </tr>
+          </tbody>
+        </Table>
+      );
+    }
+    else {
+      return <div>Loading...</div>
+    }
   }
 }
 
-export default StatTableTab;
+

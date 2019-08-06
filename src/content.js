@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import Frame, { FrameContextConsumer } from 'react-frame-component';
 import { Container, Row, Col } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
-import "font-awesome/css/font-awesome.min.css"
+// import "font-awesome/css/font-awesome.min.css"
 
 import "./content.css";
 

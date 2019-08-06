@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-class Events extends Component {
+
+export default class Events extends Component {
   render() {
     return (
       <div>
@@ -24,4 +25,3 @@ class Events extends Component {
   }
 }
 
-export default Events;

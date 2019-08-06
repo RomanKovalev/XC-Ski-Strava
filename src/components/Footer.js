@@ -4,9 +4,9 @@ class Footer extends Component {
   render() {
     return (
       <div>
-        <a href="#">FAQ</a> | 
-        <a href="#">Support</a> | 
-        <a href="#">For devs</a>
+        <a href="/">FAQ</a> | 
+        <a href="/">Support</a> | 
+        <a href="/">For devs</a>
       </div>
     );
   }
