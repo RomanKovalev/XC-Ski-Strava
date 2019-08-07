@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Tab, Tabs, Table } from 'react-bootstrap'
-import StatTableTab from "./StatTableTab";
+import StatTableTab from "../stattabletab/stattabletab";
 
-import DataService from "../services/DataService";
+import DataService from "../../services/DataService";
 
 
 export default class Stats extends Component {

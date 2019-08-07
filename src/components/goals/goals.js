@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { ProgressBar } from 'react-bootstrap'
-import GoalForm from './GoalForm'
+import GoalForm from '../goalform/goalform'
 import { Button, InputGroup, FormControl } from 'react-bootstrap'
-import "../content.css";
+import "./goals.css";
 
 
 

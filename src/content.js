@@ -9,11 +9,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./content.css";
 
-import Header from "./components/Header";
-import Stats from "./components/Stats";
-import Goals from "./components/Goals";
-import Events from "./components/Events";
-import Footer from "./components/Footer";
+import Header from "./components/header";
+import Stats from "./components/stats";
+import Goals from "./components/goals";
+import Events from "./components/events";
+import Footer from "./components/footer";
 
 class Main extends React.Component {
     render() {

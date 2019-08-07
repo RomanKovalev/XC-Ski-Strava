@@ -20,3 +20,17 @@ body {
   height: 100%;
   border: none;
 }
+
+.headerWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.headerWrapper div {
+  width: 15px;
+  cursor: pointer;
+}
+
+.headerWrapper h3 {
+  flex-grow: 2
+}
