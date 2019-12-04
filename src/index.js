@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
 
 const container = document.getElementById('athlete-profile');
 
@@ -14,4 +13,3 @@ app.className = "card";
 if (container) container.parentNode.insertBefore(app, container.nextSibling)
 
 ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
