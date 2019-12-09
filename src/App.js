@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Button } from 'react-bootstrap';
-import { DBConfig } from './indexedsb/dbconfig';
-import { initDB, IndexedDB, useIndexedDB } from 'react-indexed-db';
+import { Button, Tab, Tabs, Table } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-
+import StatTableTab from "./components/stattabletab"
 
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
+    this.handleClick1 = this.handleClick1.bind(this);
+    this.state = {
+      activities: []
+    }
   }
 
   makerequest(url, page = 1) {
@@ -62,6 +65,7 @@ class App extends Component {
               }
             })
             localStorage.setItem('skiActivities', JSON.stringify(skiActivities))
+            this.setState({ activities: skiActivities })
           })
       })
       .then(() => {
@@ -70,13 +74,43 @@ class App extends Component {
       .catch(error => console.log(error))
   }
 
+  handleClick1() {
+    console.log('ssss')
+    console.log(this.state.activities)
+  }
   render() {
     return (
       <div className="App">
         <h2>Welcome to SKI</h2>
+
+        <div>
+          <Tabs defaultActiveKey="total" id="uncontrolled-tab-example" className="main_tabs_header">
+            <Tab eventKey="total" title="Total">
+              <StatTableTab stats={['this.state.totalStats']} />
+            </Tab>
+            <Tab eventKey="skate" title="Skate">
+              <StatTableTab stats={['this.state.classicStats']} />
+            </Tab>
+            <Tab eventKey="classic" title="Classic">
+              <StatTableTab stats={['this.state.skateStats']} />
+            </Tab>
+          </Tabs>
+        </div>
+
+        {/* <div>
+          {
+            this.state.activities.map((item, i) => {
+              return (
+                <div key={i}>
+                  {item.id}
+                </div>
+              )
+            })
+          }
+        </div>
         <p className="card">
           <Button onClick={this.handleClick}>Warning</Button>
-        </p>
+        </p> */}
       </div>
     );
   }
