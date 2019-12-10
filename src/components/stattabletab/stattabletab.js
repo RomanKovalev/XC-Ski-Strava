@@ -28,15 +28,7 @@ export default class StatTableTab extends Component {
             return (
                 <Table borderless size="sm">
                     <tbody>
-                        <tr>
-                            <td>
-                                <Button bsSize="xsmall" bsStyle="info">This season</Button>
-                                <FontAwesomeIcon icon={faCogs} className="settings-icon" />
-                            </td>
-                            <td>
-                                <Button bsSize="xsmall">All time</Button>
-                            </td>
-                        </tr>
+                        
                         <tr>
                             <td>Distance</td>
                             <td>{totalDistance} {distanceUnit}</td>

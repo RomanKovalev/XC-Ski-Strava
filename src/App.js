@@ -11,21 +11,6 @@ class App extends Component {
       <div className="App">
         <h2>Welcome to SKI</h2>
         <Stats />
-
-        {/* <div>
-          {
-            this.state.activities.map((item, i) => {
-              return (
-                <div key={i}>
-                  {item.id}
-                </div>
-              )
-            })
-          }
-        </div>
-        <p className="card">
-          <Button onClick={this.handleClick}>Warning</Button>
-        </p> */}
       </div>
     );
   }

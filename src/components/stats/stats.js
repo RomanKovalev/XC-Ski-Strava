@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Tab, Tabs } from 'react-bootstrap';
-
+import { Tab, Tabs, Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCogs } from '@fortawesome/free-solid-svg-icons'
 import StatTableTab from "../stattabletab"
+import DatePicker from "react-datepicker";
 
-
+import "react-datepicker/dist/react-datepicker.css";
 import './stats.css';
 
 export default class Stats extends Component {
@@ -13,7 +15,9 @@ export default class Stats extends Component {
             activities: [],
             totalStats: {},
             classicStats: {},
-            skateStats: {}
+            skateStats: {},
+            startDate: new Date(),
+            seasonStartDate: ''
         }
     }
 
@@ -134,12 +138,12 @@ export default class Stats extends Component {
                     break;
             }
         })
-        
-        classicStats.totalDistance  = classicStats.totalDistance.toFixed(2)
+
+        classicStats.totalDistance = classicStats.totalDistance.toFixed(2)
         classicStats.totalElevation = classicStats.totalElevation.toFixed(2)
-        skateStats.totalDistance  = skateStats.totalDistance.toFixed(2)
+        skateStats.totalDistance = skateStats.totalDistance.toFixed(2)
         skateStats.totalElevation = skateStats.totalElevation.toFixed(2)
-        totalStats.totalDistance  = totalStats.totalDistance.toFixed(2)
+        totalStats.totalDistance = totalStats.totalDistance.toFixed(2)
         totalStats.totalElevation = totalStats.totalElevation.toFixed(2)
 
         classicStats.distanceUnit = skiActivities[0].short_unit
@@ -155,12 +159,12 @@ export default class Stats extends Component {
         skateStats.totalTime = this.convertTime(skateStats.totalTime)
         skateStats.maxTime = this.convertTime(skateStats.maxTime)
         totalStats.totalTime = this.convertTime(totalStats.totalTime)
-        totalStats.maxTime = this.convertTime(totalStats.maxTime) 
+        totalStats.maxTime = this.convertTime(totalStats.maxTime)
 
 
         this.setState({
-            totalStats:totalStats,
-            classicStats:classicStats,
+            totalStats: totalStats,
+            classicStats: classicStats,
             skateStats: skateStats
 
         })
@@ -176,12 +180,31 @@ export default class Stats extends Component {
         const h = Math.floor(RawTotalTime / 3600)
         const m = Math.floor((RawTotalTime - 3600 * h) / 60)
         return `${h} h ${m} m`
-      }
+    }
+    setStartDate (date) {
+        date = new Date(date.setUTCHours(0, 0, 0, 0)).toISOString()
+        console.log(date)
+        this.setState({seasonStartDate: date})
+    }
+
     render() {
+        
         return (
             <div>
+                <div>===={this.state.seasonStartDate}====</div>
                 <Tabs defaultActiveKey="total" id="uncontrolled-tab-example" className="main_tabs_header">
-                    <div>{this.state.activities.id}</div>
+                    <div className="controllers-wrapper">
+                        <div>
+                            <Button bsSize="xsmall" bsStyle="info">This season</Button>
+                            <DatePicker
+                                selected={this.state.startDate}
+                                onChange={date => this.setStartDate(date)}
+                                customInput={<FontAwesomeIcon className="setup-button" icon={faCogs} className="settings-icon" />}
+                                isodateFormat="yyyy-MM-d"
+                            />
+                        </div>
+                        <Button bsSize="xsmall">All time</Button>
+                    </div>
                     <Tab eventKey="total" title="Total">
                         <StatTableTab stats={this.state.totalStats} />
                     </Tab>
@@ -192,7 +215,7 @@ export default class Stats extends Component {
                         <StatTableTab stats={this.state.classicStats} />
                     </Tab>
                 </Tabs>
-            </div>
+            </div >
         );
     }
 }
