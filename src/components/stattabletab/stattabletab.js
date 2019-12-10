@@ -6,8 +6,15 @@ import { faCogs } from '@fortawesome/free-solid-svg-icons'
 import './stattabletab.css';
 
 export default class StatTableTab extends Component {
-    render() {
+    constructor(props) {
+        super(props)
 
+    }
+
+
+    render() {
+        console.log(this.props.stats)
+        
         if (this.props.stats) {
             const { totalDistance,
                 distanceUnit,
@@ -17,13 +24,14 @@ export default class StatTableTab extends Component {
                 maxDistance,
                 maxTime } = this.props.stats
 
+
             return (
                 <Table borderless size="sm">
                     <tbody>
                         <tr>
                             <td>
                                 <Button bsSize="xsmall" bsStyle="info">This season</Button>
-                                <FontAwesomeIcon icon={faCogs} className="settings-icon"/>
+                                <FontAwesomeIcon icon={faCogs} className="settings-icon" />
                             </td>
                             <td>
                                 <Button bsSize="xsmall">All time</Button>
