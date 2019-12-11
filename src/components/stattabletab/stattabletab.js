@@ -6,16 +6,20 @@ import { faCogs } from '@fortawesome/free-solid-svg-icons'
 import './stattabletab.css';
 
 export default class StatTableTab extends Component {
-    constructor(props) {
-        super(props)
+    // constructor(props) {
+    //     super(props)
+
+    // }
+
+    componentDidMount() {
+        console.log("StatTableTab mounted")
 
     }
-
-
     render() {
-        console.log(this.props.stats)
+        // console.log(this.props.stats)
+        console.log("STATTABRENDERED: ", this.props.stats)
         
-        if (this.props.stats) {
+        if (this.props.stats != {}) {
             const { totalDistance,
                 distanceUnit,
                 totalTime,

@@ -8,17 +8,26 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import './stats.css';
 
-export default class Stats extends Component {
-    constructor() {
-        super()
+class Stats extends Component {
+    constructor(props) {
+        console.log('constructor')
+        super(props)
         this.state = {
             activities: [],
             totalStats: {},
             classicStats: {},
             skateStats: {},
             startDate: new Date(),
-            seasonStartDate: ''
+            seasonStartDate: '',
+            thisSeason: true
         }
+
+        this.handleSeasonClick = this.handleSeasonClick.bind(this);
+        this.handleAllTimeClick = this.handleAllTimeClick.bind(this);
+    }
+
+    componentDidMount() {
+        console.log('Stats - componentDidMount')
     }
 
     makerequest(url, page = 1) {
@@ -69,6 +78,7 @@ export default class Stats extends Component {
                             }
                         })
                         localStorage.setItem('skiActivities', JSON.stringify(skiActivities))
+                        console.log('Call setstate')
                         this.setState({ activities: skiActivities })
                         this.computeStats(skiActivities)
                     })
@@ -113,7 +123,7 @@ export default class Stats extends Component {
             }
             switch (true) {
                 case (element.name.includes("Skate") || element.name.includes("skate")):
-                    console.log("Skate");
+                    // console.log("Skate");
                     classicStats.totalDistance = classicStats.totalDistance + parseFloat(element.distance)
                     classicStats.totalTime = classicStats.totalTime + element.moving_time_raw
                     classicStats.totalElevation = classicStats.totalElevation + element.elevation_gain_raw
@@ -125,7 +135,7 @@ export default class Stats extends Component {
                     }
                     break;
                 case (element.name.includes("Classic") || element.name.includes("classic")):
-                    console.log("Classic");
+                    // console.log("Classic");
                     skateStats.totalDistance = skateStats.totalDistance + parseFloat(element.distance)
                     skateStats.totalTime = skateStats.totalTime + element.moving_time_raw
                     skateStats.totalElevation = skateStats.totalElevation + element.elevation_gain_raw
@@ -168,11 +178,11 @@ export default class Stats extends Component {
             skateStats: skateStats
 
         })
-        console.log('============================')
-        console.log(totalStats)
-        console.log(classicStats)
-        console.log(skateStats)
-        console.log('============================')
+        // console.log('============================')
+        // console.log(totalStats)
+        // console.log(classicStats)
+        // console.log(skateStats)
+        // console.log('============================')
 
     }
 
@@ -181,21 +191,36 @@ export default class Stats extends Component {
         const m = Math.floor((RawTotalTime - 3600 * h) / 60)
         return `${h} h ${m} m`
     }
-    setStartDate (date) {
+    setStartDate(date) {
         date = new Date(date.setUTCHours(0, 0, 0, 0)).toISOString()
-        console.log(date)
-        this.setState({seasonStartDate: date})
+        const ldate = JSON.parse(localStorage.getItem('lastSyncTime'))
+        this.setState({ seasonStartDate: date })
     }
 
+    handleSeasonClick() {
+        console.log('herer!!!!')
+        this.setState({ thisSeason: true })
+    }
+
+    handleAllTimeClick() {
+        this.setState({ thisSeason: false })
+    }
+
+
     render() {
-        
+        console.log('stats rendered!')
         return (
             <div>
-                <div>===={this.state.seasonStartDate}====</div>
+                <div>===={this.state.thisSeason ? 'Season' : 'ALLTIME'}===</div>
                 <Tabs defaultActiveKey="total" id="uncontrolled-tab-example" className="main_tabs_header">
                     <div className="controllers-wrapper">
                         <div>
-                            <Button bsSize="xsmall" bsStyle="info">This season</Button>
+                            <Button
+                                bsSize="xsmall"
+                                bsStyle={`${this.state.thisSeason ? "secondary" : "light"}`}
+                                onClick={this.handleSeasonClick}>
+                                This season
+                            </Button>
                             <DatePicker
                                 selected={this.state.startDate}
                                 onChange={date => this.setStartDate(date)}
@@ -203,7 +228,12 @@ export default class Stats extends Component {
                                 isodateFormat="yyyy-MM-d"
                             />
                         </div>
-                        <Button bsSize="xsmall">All time</Button>
+                        <Button
+                            bsSize="xsmall"
+                            bsStyle={`${this.state.thisSeason ? "light" : "secondary"}`}
+                            onClick={this.handleAllTimeClick}>
+                            All time
+                        </Button>
                     </div>
                     <Tab eventKey="total" title="Total">
                         <StatTableTab stats={this.state.totalStats} />
@@ -219,3 +249,5 @@ export default class Stats extends Component {
         );
     }
 }
+
+export default Stats;
