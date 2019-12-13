@@ -16,10 +16,10 @@ export default class StatTableTab extends Component {
 
     }
     render() {
-        // console.log(this.props.stats)
-        console.log("STATTABRENDERED: ", this.props.stats)
+        console.log(this.props.stats)
+        // console.log("STATTABRENDERED: ", this.props.stats)
         
-        if (this.props.stats != {}) {
+        if (this.props.stats != undefined ) {
             const { totalDistance,
                 distanceUnit,
                 totalTime,

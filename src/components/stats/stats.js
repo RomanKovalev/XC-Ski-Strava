@@ -18,16 +18,12 @@ class Stats extends Component {
             classicStats: {},
             skateStats: {},
             startDate: new Date(),
-            seasonStartDate: '',
+            seasonStartDate: null,
             thisSeason: true
         }
 
         this.handleSeasonClick = this.handleSeasonClick.bind(this);
         this.handleAllTimeClick = this.handleAllTimeClick.bind(this);
-    }
-
-    componentDidMount() {
-        console.log('Stats - componentDidMount')
     }
 
     makerequest(url, page = 1) {
@@ -49,7 +45,10 @@ class Stats extends Component {
     componentDidMount() {
         const lastSyncTime = JSON.parse(localStorage.getItem('lastSyncTime') || '[]')
         const url = 'https://www.strava.com/athlete/training_activities?activity_type=NordicSki&page='
-        const results = this.makerequest(url)
+        // const seasonStartDate = JSON.parse(localStorage.getItem('seasonStartDate'))
+
+
+        const results = this.makerequest(url) // request 1st page
             .then(response => {
                 const skiActivities = JSON.parse(localStorage.getItem('skiActivities') || '[]')
                 const pages = Math.ceil(response.total / response.perPage)
@@ -111,7 +110,45 @@ class Stats extends Component {
             maxDistance: 0,
             maxTime: 0
         }
+        const seasonTotalStats = {
+            totalDistance: 0,
+            totalTime: 0,
+            totalElevation: 0,
+            maxDistance: 0,
+            maxTime: 0
+        }
+        const seasonClassicStats = {
+            totalDistance: 0,
+            totalTime: 0,
+            totalElevation: 0,
+            maxDistance: 0,
+            maxTime: 0
+        }
+        const seasonSkateStats = {
+            totalDistance: 0,
+            totalTime: 0,
+            totalElevation: 0,
+            maxDistance: 0,
+            maxTime: 0
+        }
+        const seasonStartDate = localStorage.getItem('seasonStartDate')
+        // if (seasonStartDate !== null) {
+        //     this.setState({ "seasonStartDate": seasonStartDate })
+        // }
         skiActivities.forEach(element => {
+            // console.log("element.start_time, seasonStartDate", element.start_time, seasonStartDate)
+            if (element.start_time > seasonStartDate) {
+                console.log('seasoned (total)')
+                seasonTotalStats.totalDistance = seasonTotalStats.totalDistance + parseFloat(element.distance)
+                seasonTotalStats.totalTime = seasonTotalStats.totalTime + element.moving_time_raw
+                seasonTotalStats.totalElevation = seasonTotalStats.totalElevation + element.elevation_gain_raw
+                if (seasonTotalStats.maxDistance < parseFloat(element.distance)) {
+                    seasonTotalStats.maxDistance = parseFloat(element.distance)
+                }
+                if (totalStats.maxTime < element.moving_time_raw) {
+                    totalStats.maxTime = element.moving_time_raw
+                }
+            }
             totalStats.totalDistance = totalStats.totalDistance + parseFloat(element.distance)
             totalStats.totalTime = totalStats.totalTime + element.moving_time_raw
             totalStats.totalElevation = totalStats.totalElevation + element.elevation_gain_raw
@@ -122,8 +159,18 @@ class Stats extends Component {
                 totalStats.maxTime = element.moving_time_raw
             }
             switch (true) {
-                case (element.name.includes("Skate") || element.name.includes("skate")):
-                    // console.log("Skate");
+                case (element.name.includes("Classic") || element.name.includes("classic")):
+                    if (element.start_time > seasonStartDate) {
+                        seasonClassicStats.totalDistance = seasonClassicStats.totalDistance + parseFloat(element.distance)
+                        seasonClassicStats.totalTime = seasonClassicStats.totalTime + element.moving_time_raw
+                        seasonClassicStats.totalElevation = seasonClassicStats.totalElevation + element.elevation_gain_raw
+                        if (seasonClassicStats.maxDistance < parseFloat(element.distance)) {
+                            seasonClassicStats.maxDistance = parseFloat(element.distance)
+                        }
+                        if (seasonClassicStats.maxTime < element.moving_time_raw) {
+                            seasonClassicStats.maxTime = element.moving_time_raw
+                        }
+                    }
                     classicStats.totalDistance = classicStats.totalDistance + parseFloat(element.distance)
                     classicStats.totalTime = classicStats.totalTime + element.moving_time_raw
                     classicStats.totalElevation = classicStats.totalElevation + element.elevation_gain_raw
@@ -134,8 +181,19 @@ class Stats extends Component {
                         classicStats.maxTime = element.moving_time_raw
                     }
                     break;
-                case (element.name.includes("Classic") || element.name.includes("classic")):
-                    // console.log("Classic");
+                case (element.name.includes("Skate") || element.name.includes("skate")):
+                    if (element.start_time > seasonStartDate) {
+                        console.log('seasoned classic')
+                        seasonSkateStats.totalDistance = seasonSkateStats.totalDistance + parseFloat(element.distance)
+                        seasonSkateStats.totalTime = seasonSkateStats.totalTime + element.moving_time_raw
+                        seasonSkateStats.totalElevation = seasonSkateStats.totalElevation + element.elevation_gain_raw
+                        if (seasonSkateStats.maxDistance < parseFloat(element.distance)) {
+                            seasonSkateStats.maxDistance = parseFloat(element.distance)
+                        }
+                        if (seasonSkateStats.maxTime < element.moving_time_raw) {
+                            seasonSkateStats.maxTime = element.moving_time_raw
+                        }
+                    }
                     skateStats.totalDistance = skateStats.totalDistance + parseFloat(element.distance)
                     skateStats.totalTime = skateStats.totalTime + element.moving_time_raw
                     skateStats.totalElevation = skateStats.totalElevation + element.elevation_gain_raw
@@ -156,13 +214,27 @@ class Stats extends Component {
         totalStats.totalDistance = totalStats.totalDistance.toFixed(2)
         totalStats.totalElevation = totalStats.totalElevation.toFixed(2)
 
+        seasonClassicStats.totalDistance = seasonClassicStats.totalDistance.toFixed(2)
+        seasonClassicStats.totalElevation = seasonClassicStats.totalElevation.toFixed(2)
+        seasonSkateStats.totalDistance = seasonSkateStats.totalDistance.toFixed(2)
+        seasonSkateStats.totalElevation = seasonSkateStats.totalElevation.toFixed(2)
+        seasonTotalStats.totalDistance = seasonTotalStats.totalDistance.toFixed(2)
+        seasonTotalStats.totalElevation = seasonTotalStats.totalElevation.toFixed(2)
+
         classicStats.distanceUnit = skiActivities[0].short_unit
         skateStats.distanceUnit = skiActivities[0].short_unit
         totalStats.distanceUnit = skiActivities[0].short_unit
+        seasonClassicStats.distanceUnit = skiActivities[0].short_unit
+        seasonSkateStats.distanceUnit = skiActivities[0].short_unit
+        seasonTotalStats.distanceUnit = skiActivities[0].short_unit
 
         classicStats.elevateUnit = skiActivities[0].elevation_unit
         skateStats.elevateUnit = skiActivities[0].elevation_unit
         totalStats.elevateUnit = skiActivities[0].elevation_unit
+
+        seasonClassicStats.elevateUnit = skiActivities[0].elevation_unit
+        seasonSkateStats.elevateUnit = skiActivities[0].elevation_unit
+        seasonTotalStats.elevateUnit = skiActivities[0].elevation_unit
 
         classicStats.totalTime = this.convertTime(classicStats.totalTime)
         classicStats.maxTime = this.convertTime(classicStats.maxTime)
@@ -171,19 +243,23 @@ class Stats extends Component {
         totalStats.totalTime = this.convertTime(totalStats.totalTime)
         totalStats.maxTime = this.convertTime(totalStats.maxTime)
 
+        seasonClassicStats.totalTime = this.convertTime(seasonClassicStats.totalTime)
+        seasonClassicStats.maxTime = this.convertTime(seasonClassicStats.maxTime)
+        seasonSkateStats.totalTime = this.convertTime(seasonSkateStats.totalTime)
+        seasonSkateStats.maxTime = this.convertTime(seasonSkateStats.maxTime)
+        seasonTotalStats.totalTime = this.convertTime(seasonTotalStats.totalTime)
+        seasonTotalStats.maxTime = this.convertTime(seasonTotalStats.maxTime)
+
 
         this.setState({
             totalStats: totalStats,
             classicStats: classicStats,
-            skateStats: skateStats
+            skateStats: skateStats,
+            seasonTotalStats: seasonTotalStats,
+            seasonClassicStats: seasonClassicStats,
+            seasonSkateStats: seasonSkateStats
 
         })
-        // console.log('============================')
-        // console.log(totalStats)
-        // console.log(classicStats)
-        // console.log(skateStats)
-        // console.log('============================')
-
     }
 
     convertTime(RawTotalTime) {
@@ -191,14 +267,16 @@ class Stats extends Component {
         const m = Math.floor((RawTotalTime - 3600 * h) / 60)
         return `${h} h ${m} m`
     }
+
     setStartDate(date) {
         date = new Date(date.setUTCHours(0, 0, 0, 0)).toISOString()
-        const ldate = JSON.parse(localStorage.getItem('lastSyncTime'))
+        console.log(date)
+        // const ldate = JSON.parse(localStorage.getItem('lastSyncTime'))
         this.setState({ seasonStartDate: date })
+        localStorage.setItem('seasonStartDate', date)
     }
 
     handleSeasonClick() {
-        console.log('herer!!!!')
         this.setState({ thisSeason: true })
     }
 
@@ -206,19 +284,21 @@ class Stats extends Component {
         this.setState({ thisSeason: false })
     }
 
-
     render() {
         console.log('stats rendered!')
         return (
             <div>
                 <div>===={this.state.thisSeason ? 'Season' : 'ALLTIME'}===</div>
+                <div>===={this.state.seasonStartDate}===</div>
                 <Tabs defaultActiveKey="total" id="uncontrolled-tab-example" className="main_tabs_header">
                     <div className="controllers-wrapper">
                         <div>
                             <Button
                                 bsSize="xsmall"
                                 bsStyle={`${this.state.thisSeason ? "secondary" : "light"}`}
-                                onClick={this.handleSeasonClick}>
+                                onClick={this.handleSeasonClick}
+                                disabled={!this.state.seasonStartDate}
+                            >
                                 This season
                             </Button>
                             <DatePicker
@@ -236,13 +316,13 @@ class Stats extends Component {
                         </Button>
                     </div>
                     <Tab eventKey="total" title="Total">
-                        <StatTableTab stats={this.state.totalStats} />
+                        <StatTableTab stats={!this.state.thisSeason ? this.state.totalStats : this.state.seasonTotalStats} />
                     </Tab>
                     <Tab eventKey="skate" title="Skate">
-                        <StatTableTab stats={this.state.skateStats} />
+                        <StatTableTab stats={!this.state.thisSeason ? this.state.skateStats : this.state.seasonSkateStats} />
                     </Tab>
                     <Tab eventKey="classic" title="Classic">
-                        <StatTableTab stats={this.state.classicStats} />
+                        <StatTableTab stats={!this.state.thisSeason ? this.state.classicStats : this.state.seasonClassicStats} />
                     </Tab>
                 </Tabs>
             </div >
