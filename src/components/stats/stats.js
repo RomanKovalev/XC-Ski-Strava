@@ -10,7 +10,6 @@ import './stats.css';
 
 class Stats extends Component {
     constructor(props) {
-        console.log('constructor')
         super(props)
         this.state = {
             activities: [],
@@ -19,7 +18,7 @@ class Stats extends Component {
             skateStats: {},
             startDate: new Date(),
             seasonStartDate: null,
-            thisSeason: true
+            thisSeason: false
         }
 
         this.handleSeasonClick = this.handleSeasonClick.bind(this);
@@ -45,7 +44,10 @@ class Stats extends Component {
     componentDidMount() {
         const lastSyncTime = JSON.parse(localStorage.getItem('lastSyncTime') || '[]')
         const url = 'https://www.strava.com/athlete/training_activities?activity_type=NordicSki&page='
-        // const seasonStartDate = JSON.parse(localStorage.getItem('seasonStartDate'))
+        const seasonStartDate = localStorage.getItem('seasonStartDate')
+        if (seasonStartDate != null) {
+            this.setState({ seasonStartDate: seasonStartDate })
+        }
 
 
         const results = this.makerequest(url) // request 1st page
@@ -77,7 +79,6 @@ class Stats extends Component {
                             }
                         })
                         localStorage.setItem('skiActivities', JSON.stringify(skiActivities))
-                        console.log('Call setstate')
                         this.setState({ activities: skiActivities })
                         this.computeStats(skiActivities)
                     })
@@ -132,13 +133,8 @@ class Stats extends Component {
             maxTime: 0
         }
         const seasonStartDate = localStorage.getItem('seasonStartDate')
-        // if (seasonStartDate !== null) {
-        //     this.setState({ "seasonStartDate": seasonStartDate })
-        // }
         skiActivities.forEach(element => {
-            // console.log("element.start_time, seasonStartDate", element.start_time, seasonStartDate)
             if (element.start_time > seasonStartDate) {
-                console.log('seasoned (total)')
                 seasonTotalStats.totalDistance = seasonTotalStats.totalDistance + parseFloat(element.distance)
                 seasonTotalStats.totalTime = seasonTotalStats.totalTime + element.moving_time_raw
                 seasonTotalStats.totalElevation = seasonTotalStats.totalElevation + element.elevation_gain_raw
@@ -183,7 +179,6 @@ class Stats extends Component {
                     break;
                 case (element.name.includes("Skate") || element.name.includes("skate")):
                     if (element.start_time > seasonStartDate) {
-                        console.log('seasoned classic')
                         seasonSkateStats.totalDistance = seasonSkateStats.totalDistance + parseFloat(element.distance)
                         seasonSkateStats.totalTime = seasonSkateStats.totalTime + element.moving_time_raw
                         seasonSkateStats.totalElevation = seasonSkateStats.totalElevation + element.elevation_gain_raw
@@ -270,10 +265,11 @@ class Stats extends Component {
 
     setStartDate(date) {
         date = new Date(date.setUTCHours(0, 0, 0, 0)).toISOString()
-        console.log(date)
         // const ldate = JSON.parse(localStorage.getItem('lastSyncTime'))
         this.setState({ seasonStartDate: date })
         localStorage.setItem('seasonStartDate', date)
+        const activities = localStorage.getItem('skiActivities')
+        this.computeStats(JSON.parse(activities))
     }
 
     handleSeasonClick() {
@@ -285,11 +281,13 @@ class Stats extends Component {
     }
 
     render() {
-        console.log('stats rendered!')
         return (
             <div>
-                <div>===={this.state.thisSeason ? 'Season' : 'ALLTIME'}===</div>
-                <div>===={this.state.seasonStartDate}===</div>
+                {this.state.seasonStartDate !== null ?
+                    <div>Your season started {new Intl.DateTimeFormat("en-AU", { year: "numeric", month: "short", day: "numeric" }).format(new Date(this.state.seasonStartDate)).replace(/\s/g, '-')}</div>
+                    :
+                    <div className="info-message">Click fogs icon below to set season start date</div>
+                }
                 <Tabs defaultActiveKey="total" id="uncontrolled-tab-example" className="main_tabs_header">
                     <div className="controllers-wrapper">
                         <div>
