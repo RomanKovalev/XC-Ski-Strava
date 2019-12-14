@@ -6,10 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 class App extends Component {
-
-  componentDidMount() {
-    console.log('MAIN APP DID MOUNTED')
-  }
   render() {
     return (
       <div className="App">
