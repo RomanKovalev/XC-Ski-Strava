@@ -284,7 +284,7 @@ class Stats extends Component {
         return (
             <div>
                 {this.state.seasonStartDate !== null ?
-                    <div>Your season started {new Intl.DateTimeFormat("en-AU", { year: "numeric", month: "short", day: "numeric" }).format(new Date(this.state.seasonStartDate)).replace(/\s/g, '-')}</div>
+                    <div className='info-message'>Your season started {new Intl.DateTimeFormat("en-AU", { year: "numeric", month: "short", day: "numeric" }).format(new Date(this.state.seasonStartDate)).replace(/\s/g, '-')}</div>
                     :
                     <div className="info-message">Click fogs icon below to set season start date</div>
                 }

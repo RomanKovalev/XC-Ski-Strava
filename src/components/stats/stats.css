@@ -7,3 +7,13 @@
 .controllers-wrapper div * {
     cursor: pointer;
 }
+
+.App .main_tabs_header .nav-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.info-message {
+    margin-bottom: 10px;
+}
