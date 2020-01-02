@@ -8,7 +8,10 @@ class Goals extends Component {
         const now = 60;
         return (
             <div className="goals">
+                <span>Week goal</span>
                 <ProgressBar now={now} label={`${now}%`} />
+                <span>Season goal</span>
+                <ProgressBar now={now-20} label={`${now-20}%`} />                
             </div>
         );
     }

@@ -1,21 +1,31 @@
 import React, { Component } from 'react';
-import { Button, ButtonToolbar, Modal } from 'react-bootstrap';
+import { Button, ButtonToolbar, Modal, Tab, Tabs, FormGroup, InputGroup, FormControl, Form, Col } from 'react-bootstrap';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCogs } from '@fortawesome/free-solid-svg-icons'
 
+import './faq.css';
+
 
 function Faq(props) {
-    const [modalShow, setModalShow] = React.useState(false);
+    const [modalFaqShow, setModalFaqShow] = React.useState(false);
+    const [modalGoalsShow, setModalGoalsShow] = React.useState(false);
 
     return (
         <ButtonToolbar>
-            <Button bsSize="xsmall" variant="primary" onClick={() => setModalShow(true)}>
+            <Button bsSize="xsmall" variant="primary" onClick={() => setModalFaqShow(true)}>
                 FAQ
-        </Button>
-
+            </Button>
+            <Button bsSize="xsmall" variant="primary" onClick={() => setModalGoalsShow(true)}>
+                Set goals
+            </Button>
             <FaqModal
-                show={modalShow}
-                onHide={() => setModalShow(false)}
+                show={modalFaqShow}
+                onHide={() => setModalFaqShow(false)}
+            />
+            <GoalsModal
+                show={modalGoalsShow}
+                onHide={() => setModalGoalsShow(false)}
             />
         </ButtonToolbar>
     );
@@ -23,7 +33,95 @@ function Faq(props) {
 
 export default Faq;
 
+function GoalsModal(props) {
 
+    const [unit, setUnit] = React.useState('');
+    const [value, setValue] = React.useState('');
+    
+    return (
+        <Modal
+            {...props}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                    Set your goals
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
+                    <Tab eventKey={1} title="Set year goal">
+                        <Form inline>
+                            <FormGroup controlId="formInlineName">
+                                <FormControl 
+                                    componentClass="select"
+                                    placeholder="select"
+                                    onClick={(e)=>setUnit(e.target.value)}
+                                >
+                                    <option value="">Choose goal type</option>
+                                    <option value="kilometers">Distance</option>
+                                    <option value="hours">Time</option>
+                                    <option value="meters">Elevation</option>
+                                </FormControl>
+                            </FormGroup>
+                            <FormGroup 
+                                controlId="formInlineGoal" 
+                                bsClass='form-group value-group'
+                                validationState={(value < 0) ? "error" : ""}
+                            >
+                                <FormControl 
+                                    type="number" 
+                                    placeholder="" 
+                                    bsClass='form-control value-control'
+                                    onChange={(e)=>setValue(e.target.value)}
+                                    />
+                            </FormGroup>
+                            <FormGroup controlId="formInlineGoal" bsClass='form-group value-group'>
+                                <h5>{unit}</h5>
+                            </FormGroup>
+                        </Form>
+                    </Tab>
+                    <Tab eventKey={2} title="Set week goal">
+                    <Form inline>
+                            <FormGroup controlId="formInlineName">
+                                <FormControl 
+                                    componentClass="select"
+                                    placeholder="select"
+                                    onClick={(e)=>setUnit(e.target.value)}
+                                >
+                                    <option value="">Choose goal type</option>
+                                    <option value="kilometers">Distance</option>
+                                    <option value="hours">Time</option>
+                                    <option value="meters">Elevation</option>
+                                </FormControl>
+                            </FormGroup>
+                            <FormGroup 
+                                controlId="formInlineGoal" 
+                                bsClass='form-group value-group'
+                                validationState={(value < 0) ? "error" : ""}
+                            >
+                                <FormControl 
+                                    type="number" 
+                                    placeholder="" 
+                                    bsClass='form-control value-control'
+                                    onChange={(e)=>setValue(e.target.value)}
+                                    />
+                            </FormGroup>
+                            <FormGroup controlId="formInlineGoal" bsClass='form-group value-group'>
+                                <h5>{unit}</h5>
+                            </FormGroup>
+                        </Form>
+                    </Tab>
+                </Tabs>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={props.onHide} disabled={(value < 0)}>Set goals</Button>
+            </Modal.Footer>
+        </Modal>
+    );
+}
 
 function FaqModal(props) {
     return (
