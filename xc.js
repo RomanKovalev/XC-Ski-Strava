@@ -1,4 +1,12 @@
 'use strict'
+
+document.getElementsByClassName('tabs tabs-justified with-tab-contents')[0].style.display="flex";
+for (i=0; i <= 4; i++) {
+	document.getElementsByClassName('tabs tabs-justified with-tab-contents')[0].querySelectorAll('[role="tab"]')[i].style.flexGrow="1";  
+	document.getElementsByClassName('tabs tabs-justified with-tab-contents')[0].querySelectorAll('[role="tab"]')[i].getElementsByClassName('tab')[0].style.paddingRight="0";
+	document.getElementsByClassName('tabs tabs-justified with-tab-contents')[0].querySelectorAll('[role="tab"]')[i].getElementsByClassName('tab')[0].style.paddingLeft="0"; 
+};
+
 var ski_tab = '<li aria-controls="ski-goals" aria-selected="true" id="ski-goals-tab" role="tab"><div class="tab" data-sport="Nordic Ski"><span class="app-icon-wrapper"><span title="Ski Goal" class="app-icon icon-nordicski icon-dark icon-lg">Ski Goal</span></span></div></li>'
 
 var card_wrapper = document.getElementsByClassName('tabs with-tab-contents')[0]
