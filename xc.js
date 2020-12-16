@@ -1,22 +1,23 @@
 'use strict'
 
-document.getElementsByClassName('tabs tabs-justified with-tab-contents')[0].style.display="flex";
-for (i=0; i <= 4; i++) {
-	document.getElementsByClassName('tabs tabs-justified with-tab-contents')[0].querySelectorAll('[role="tab"]')[i].style.flexGrow="1";  
-	document.getElementsByClassName('tabs tabs-justified with-tab-contents')[0].querySelectorAll('[role="tab"]')[i].getElementsByClassName('tab')[0].style.paddingRight="0";
-	document.getElementsByClassName('tabs tabs-justified with-tab-contents')[0].querySelectorAll('[role="tab"]')[i].getElementsByClassName('tab')[0].style.paddingLeft="0"; 
-};
+// document.getElementsByClassName('tabs tabs-justified with-tab-contents')[0].style.display="flex";
+// for (i=0; i < 4; i++) {
+// 	document.getElementsByClassName('tabs tabs-justified with-tab-contents')[0].querySelectorAll('[role="tab"]')[i].style.flexGrow="1";  
+// 	document.getElementsByClassName('tabs tabs-justified with-tab-contents')[0].querySelectorAll('[role="tab"]')[i].getElementsByClassName('tab')[0].style.paddingRight="0";
+// 	document.getElementsByClassName('tabs tabs-justified with-tab-contents')[0].querySelectorAll('[role="tab"]')[i].getElementsByClassName('tab')[0].style.paddingLeft="0"; 
+// };
 
 var ski_tab = '<li aria-controls="ski-goals" aria-selected="true" id="ski-goals-tab" role="tab"><div class="tab" data-sport="Nordic Ski"><span class="app-icon-wrapper"><span title="Ski Goal" class="app-icon icon-nordicski icon-dark icon-lg">Ski Goal</span></span></div></li>'
-
 var card_wrapper = document.getElementsByClassName('tabs with-tab-contents')[0]
 card_wrapper.innerHTML = ski_tab + card_wrapper.innerHTML
-document.getElementById('ride-goals-tab').setAttribute('aria-selected', false)
-document.getElementById('ride-goals').setAttribute('aria-hidden', true)
 
-// document.getElementsByClassName('promo promo-fancy feed-entry card')[0].style.display='none';
-document.getElementsByClassName('promo promo-fancy feed-entry card')[0].remove()
-document.getElementsByClassName('upgrade')[0].style.display = 'none'
+document.getElementById('relative-effort-goals-tab').remove()
+document.getElementById('relative-effort-goals').remove()
+
+// // document.getElementsByClassName('promo promo-fancy feed-entry card')[0].style.display='none';
+// document.getElementsByClassName('promo promo-fancy feed-entry card')[0].remove()
+// document.getElementsByClassName('upgrade')[0].style.display = 'none'
+// document.getElementsByClassName('upgrade')[0].style.display = 'none'
 
 var original_card_content = document.getElementById('ride-goals')
 var ski_card_content = original_card_content.cloneNode(true)
@@ -32,14 +33,23 @@ document.getElementsByClassName('tab-contents')[0].appendChild(ski_card_content)
 
 ski_card_content.getElementsByTagName('image')[0].setAttribute('href', chrome.extension.getURL('snowflake.png'))
 
+document.getElementById('ride-goals-tab').setAttribute('aria-selected', false)
+document.getElementById('ride-goals').setAttribute('aria-hidden', true)
+
+// var remove_upgrade = document.getElementById('ski-goals').getElementsByClassName('card-body')[0].style.display = 'none'
+
+
 var banner = document.getElementsByClassName('js-snw-goals-upsell media upsell');
+ski_card_content.getElementsByClassName('card-body')[0].display = 'block'
+
 banner[0].style.display = 'none'
 banner[1].style.display = 'none'
 banner[2].style.display = 'none'
-banner[3].getElementsByClassName('media-left')[0].remove();
+banner[3].style.display = 'flex'
+
+// banner[3].getElementsByClassName('media-left')[0].remove();
 banner[3].getElementsByClassName('media-body pl-sm')[0].innerHTML = '<a style="cursor:pointer;">Setup you XC ski year goal</a>';
 banner[3].getElementsByClassName('media-body pl-sm')[0].style.textAlign='center';
-// banner[3].style.display = 'none'
 
 
 var url = 'https://www.strava.com/athlete/training_activities?activity_type=NordicSki'
@@ -218,5 +228,6 @@ var progress_year_bar_shadow = ski_card_content.getElementsByClassName('card-bod
 progress_year_bar_shadow.setAttribute('class', 'progress-bar-container volume-bar highlighted')
 ski_card_content.getElementsByClassName('card-body yearly-goal text-center')[0].getElementsByTagName('g')[0].appendChild(progress_year_bar_shadow)
 
-if (year_goal == 0) { year_goal = 1 };
-progress_year_bar_shadow.setAttribute('width', Math.round(common_year_counter * 248 / year_goal / 1000))
+if (year_goal == '0') { year_goal = 1 };
+ski_card_content.getElementsByClassName('card-body yearly-goal text-center')[0].getElementsByTagName('rect')[1].setAttribute('width', Math.round(common_year_counter * 248 / year_goal / 1000))
+// progress_year_bar_shadow.setAttribute('width', Math.round(common_year_counter * 248 / year_goal / 10000))
