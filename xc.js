@@ -228,6 +228,10 @@ var progress_year_bar_shadow = ski_card_content.getElementsByClassName('card-bod
 progress_year_bar_shadow.setAttribute('class', 'progress-bar-container volume-bar highlighted')
 ski_card_content.getElementsByClassName('card-body yearly-goal text-center')[0].getElementsByTagName('g')[0].appendChild(progress_year_bar_shadow)
 
-if (year_goal == '0') { year_goal = 1 };
-ski_card_content.getElementsByClassName('card-body yearly-goal text-center')[0].getElementsByTagName('rect')[1].setAttribute('width', Math.round(common_year_counter * 248 / year_goal / 1000))
-// progress_year_bar_shadow.setAttribute('width', Math.round(common_year_counter * 248 / year_goal / 10000))
+if (year_goal == '0') { 
+  ski_card_content.getElementsByClassName('card-body yearly-goal text-center')[0].getElementsByTagName('rect')[1].setAttribute('width', 0)
+} else {
+  ski_card_content.getElementsByClassName('card-body yearly-goal text-center')[0].getElementsByTagName('rect')[1].setAttribute('width', Math.round(common_year_counter * 248 / year_goal / 1000))
+  // progress_year_bar_shadow.setAttribute('width', Math.round(common_year_counter * 248 / year_goal / 10000))
+}
+
